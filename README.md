@@ -8,7 +8,7 @@ binary number variables are implemented with 1-dim integer numpy array. </br>
 ## Introduction
 The main purpose of this tool is to help users simulate, generate,
 and better understand the data flow and relationships between variables
-when writing **Verilog** code more conveniently.
+when writing **Verilog** code.
 
 
 ## Outline
