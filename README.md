@@ -38,7 +38,7 @@ when writing **Verilog** code.
     - `value` : The value of the variable, type can be `binary`, `float`, `int`, `numpy.ndarray`, or `str`(hexadecimal).
     - `width` : The bits width of the variable.
     - `fixed_point` : The index of $2^0$ digit in binary format.
-    - `signed` : `True` for signed variable, `False` for unsigned variable (value cannot be positive).
+    - `signed` : `True` for signed variable, `False` for unsigned variable (value cannot be negative).
     - `prefix` : Showing width & radix info prefix in front of the variable while getting the string format of it.
 - **Return** :</br>
     An object of `binary`
