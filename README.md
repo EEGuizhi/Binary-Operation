@@ -15,11 +15,11 @@ when writing **Verilog** code more conveniently.
 - [Declaration](#declaration)
 - [Operating values in decimal](#operating-values-in-decimal)
 - [Operating values in binary](#operating-values-in-binary)
+- [Printing](#printing)
 - [Arithmetic operation](#arithmetic-operation)
 - [Logic operation](#logic-operation)
 - [Numerical representation](#numerical-representation)
-- [Printing](#printing)
-- [Truncating](#truncating)
+- [Truncating & Getting single bit value](#truncating--getting-single-bit-value)
 - [Concatenation](#concatenation)
 
 
@@ -72,15 +72,46 @@ when writing **Verilog** code more conveniently.
     - Example :
         ```py
         var2.bin = var1.bin
-        var2.bin = var1.bin[0:3]  # truncating
+        var2.bin = var1.bin[0:3]  # slicing (truncating)
         ```
 - **Notes** : </br>
     If the variable doesn't have enough **bit width** to represent the decimal value,
     it can still be converted to a binary number, but it will not be the same as the original value. (Please see `def dec2bin()`)
 
 
-## Arithmetic operation
 
+## Printing
+- **Code** :
+    - Print in binary :
+        ```py
+        print(var)
+        ```
+    - Print in decimal :
+        ```py
+        print(var.dec)
+        ```
+    - Print in hexadecimal :
+        ```py
+        print(var.hex)
+        ```
+
+
+## Arithmetic operation
+- **Code** :
+    - Addition :
+        ```py
+        result.bin = add(num1.bin, num2.bin, width=num1.width)  # using basic add function
+        result = num1 + num2  # using "+" operator, the settings (width, signed..) depends on `num1`
+        ```
+    - Subtraction :
+        ```py
+        ```
+    - Multiplication :
+        ```py
+        ```
+    - Division :
+        ```py
+        ```
 
 
 ## Logic operation
@@ -91,11 +122,7 @@ when writing **Verilog** code more conveniently.
 
 
 
-## Printing
-
-
-
-## Truncating & Getting single bit
+## Truncating & Getting single bit value
 
 
 
