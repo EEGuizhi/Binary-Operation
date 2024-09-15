@@ -16,9 +16,8 @@ when writing **Verilog** code.
 - [Operating values in decimal](#operating-values-in-decimal)
 - [Operating values in binary](#operating-values-in-binary)
 - [Printing](#printing)
-- [Arithmetic operation](#arithmetic-operation)
-- [Logic operation](#logic-operation)
-- [Numerical representation](#numerical-representation)
+- [Arithmetic operations](#arithmetic-operations)
+- [Logic operations](#logic-operations)
 - [Truncating & Getting single bit value](#truncating--getting-single-bit-value)
 - [Concatenation](#concatenation)
 
@@ -63,7 +62,7 @@ when writing **Verilog** code.
 - **Code** :
     - Setting value :
         ```py
-        var.bin = <binary value>  # must be `numpy.ndarray`
+        var.bin = <value>  # must be `numpy.ndarray`
         ```
     - Reading value :
         ```py
@@ -72,7 +71,7 @@ when writing **Verilog** code.
     - Example :
         ```py
         var2.bin = var1.bin
-        var2.bin = var1.bin[0:3]  # slicing (truncating)
+        var3.bin = var1.bin[0:3]  # slicing (truncating), same as var1[2:0] in Verilog
         ```
 - **Notes** : </br>
     If the variable doesn't have enough **bit width** to represent the decimal value,
@@ -96,29 +95,50 @@ when writing **Verilog** code.
         ```
 
 
-## Arithmetic operation
+## Arithmetic operations
 - **Code** :
+    - Basic functions :
+        - add :
+            ```py
+            np_array = add(<value1>, <value2>, <width>)
+            # Note : Setting <width> to `None` will take larger width of values as default
+            ```
+        - negative :
+            ```py
+            np_array = neg(<value>)
+            ```
+        - round :
+            ```py
+            np.array = rnd(<value>, <width>)
+            ```
+        - Parametes :
+            The `<value>` parameters of the function must be (binary) `numpy.ndarray`, not `binary`,
+            return is the same.
+
     - Addition :
         ```py
-        result.bin = add(num1.bin, num2.bin, width=num1.width)  # using basic add function
-        result = num1 + num2  # using "+" operator, the settings (width, signed..) depends on `num1`
+        result.bin = add(num1.bin, num2.bin, width=num1.width)  # using basic function
+        result = num1 + num2  # using "+" operator, the settings (width, signed) depends on `num1`
         ```
     - Subtraction :
         ```py
+        result.bin = add(num1.bin, neg(num2.bin), width=num1.width)  # using basic function
+        result = num1 - num2  # using "-" operator, the settings (width, signed) depends on `num1`
         ```
     - Multiplication :
         ```py
+
         ```
     - Division :
         ```py
+
         ```
+- **Notes** : </br>
+    This tool has overloaded the addition(+) and subtraction(-) operators,
+    please note that the settings (width, signed, prefix) when doing operation depends on the **first** binary variable. (Please see `def __add__()` and `def __sub__()`)
 
 
-## Logic operation
-
-
-
-## Numerical representation
+## Logic operations
 
 
 

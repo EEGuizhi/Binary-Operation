@@ -8,7 +8,7 @@ import numpy as np
 
 
 class binary:
-    def __init__(self, value = 0.0, width = 32, fixed_point = 0, signed = False, prefix = False) -> None:
+    def __init__(self, value: int | float | str | binary | np.ndarray, width: int=None, fixed_point = 0, signed = False, prefix = False) -> None:
         """Declare a binary variable.
 
         Parameters :
@@ -19,6 +19,13 @@ class binary:
             `signed` : `True` for signed variable, `False` for unsigned variable (value cannot be positive).
             `prefix` : Showing width & radix info prefix in front of the variable while getting the string format of it.
         """
+        if width == None:
+            if type(value) == np.ndarray:
+                width = value.shape[0]
+            elif type(value) == binary:
+                width = value.width
+            else:
+                raise ValueError("The width must be given if the type of value is not `np.ndarray` or `binary`.")
         self.__width = width
         self.__signed = signed
         self.__fixed_point = fixed_point
@@ -80,8 +87,12 @@ class binary:
         return rnd(self.__bin, width=width)
     
     def __add__(self, num: binary):
-        tmp = add(self.bin, resize(num.bin, self.width), self.width)
-        return binary(tmp, self.width, fixed_point=self.fixed_point, signed=self.signed, prefix=self.prefix)
+        tmp = add(self.__bin, resize(num.bin, width=self.__width), width=self.__width)
+        return binary(tmp, self.__width, fixed_point=self.__fixed_point, signed=self.__signed, prefix=self.__prefix)
+
+    def __sub__(self, num: binary):
+        tmp = add(self.__bin, neg(resize(num.bin, width=self.__width, signed=num.signed)), width=self.__width)
+        return binary(tmp, self.__width, fixed_point=self.__fixed_point, signed=self.__signed, prefix=self.__prefix)
 
     @dec.setter
     def dec(self, value: float) -> None:
@@ -117,8 +128,7 @@ class binary:
             self.__bin = dec2bin(value, width=self.__width, fixed_point=self.__fixed_point, signed=self.__signed)
             self.__dec = bin2dec(self.__bin, fixed_point=self.__fixed_point, signed=self.__signed)
         elif type(value) == np.ndarray:
-            if value.shape[0] != self.__width: raise ValueError("The width of the binary number is not match")
-            self.__bin = value
+            self.__bin = resize(value, self.__width, signed=self.__signed)
             self.__dec = bin2dec(value, fixed_point=self.__fixed_point, signed=self.__signed)
         elif type(value) == str:
             self.__bin = hex2bin(value, width=self.__width)
@@ -239,7 +249,7 @@ def resize(num: np.ndarray, width: int, signed = False) -> np.ndarray:
 
 def binary_resize(num: binary, width: int) -> binary:
     tmp = resize(num.bin, width=width, signed=num.signed)
-    return binary(tmp, width=width, fixed_point=num.fixed_point, signed=num.signed, prefix=num.prefix)
+    return binary(tmp, fixed_point=num.fixed_point, signed=num.signed, prefix=num.prefix)
 
 
 def dec2bin(num: float, width: int = 32, fixed_point: int = 0, signed = True) -> np.ndarray:

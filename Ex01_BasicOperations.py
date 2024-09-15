@@ -43,10 +43,3 @@ if __name__ == "__main__":
     print(var2)  # 4'b1000
     var2 = binary_resize(var2, 8)
     print(var2)  # 8'b0000_1000
-
-    print("==================================================")
-
-    # Addition
-    print(f"var1: {var1},  var2: {var2}")  # var1: 5'b0_1010,  var2: 8'b0000_1000
-    print(f"var1 + var2 = {var1 + var2}")  # 5'b1_0010
-    print(f"var2 + var1 = {var2 + var1}")  # 8'b0001_0010
