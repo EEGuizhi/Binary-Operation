@@ -1,4 +1,4 @@
-# EEGuizhi
+# BSChen (Guizhi)
 """
 This is a simple tool for doing binary operations in Python,
 binary number variables are implemented with 1-dim integer numpy array.
