@@ -100,41 +100,46 @@ when writing **Verilog** code.
     - Basic functions :
         - add :
             ```py
-            np_array = add(<value1>, <value2>, <width>)
+            array = add(<value1>, <value2>, <width>)
             # Note : Setting <width> to `None` will take larger width of values as default
+            ```
+        - subtraction :
+            ```py
+            array = sub(<value1>, <value2>, <width>)
+            # Note : Equivalent to add <value1> with negative <value2>
             ```
         - negative :
             ```py
-            np_array = neg(<value>)
+            array = neg(<value>)
             ```
         - round :
             ```py
-            np.array = rnd(<value>, <width>)
+            array = rnd(<value>, <width>)
+            ```
+        - multiplication :
+            ```py
+            array = mult(<value1>, <value2>, <width>)
+            ```
+        - division :
+            ```py
+            array_q, array_r = div(<value1>, <value2>, <width>)  # Getting quotient, remainder
             ```
         - Parametes :
             The `<value>` parameters of the function must be (binary) `numpy.ndarray`, not `binary`,
             return is the same.
-
-    - Addition :
-        ```py
-        result.bin = add(num1.bin, num2.bin, width=num1.width)  # using basic function
-        result = num1 + num2  # using "+" operator, the settings (width, signed) depends on `num1`
-        ```
-    - Subtraction :
-        ```py
-        result.bin = add(num1.bin, neg(num2.bin), width=num1.width)  # using basic function
-        result = num1 - num2  # using "-" operator, the settings (width, signed) depends on `num1`
-        ```
-    - Multiplication :
-        ```py
-
-        ```
-    - Division :
-        ```py
-
-        ```
+    - Operators :
+        - Addition`(+)` :
+            ```py
+            result = num1 + num2 
+            # Note : The settings (width, signed) will depends on `num1`
+            ```
+        - Subtraction`(-)` :
+            ```py
+            result = num1 - num2
+            # Note : The settings (width, signed) will depends on `num1`
+            ```
 - **Notes** : </br>
-    This tool has overloaded the addition(+) and subtraction(-) operators,
+    This tool has overloaded the addition`(+)` and subtraction`(-)` operators,
     please note that the settings (width, signed, prefix) when doing operation depends on the **first** binary variable. (Please see `def __add__()` and `def __sub__()`)
 
 

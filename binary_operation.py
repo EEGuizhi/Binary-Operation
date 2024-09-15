@@ -161,6 +161,10 @@ def add(num1: np.ndarray, num2: np.ndarray, width: int = None) -> np.ndarray:
         carry, sum[i] = full_add(num1[i], num2[i], carry)
     return sum
 
+def sub(num1: np.ndarray, num2: np.ndarray, width: int = None) -> np.ndarray:
+    """Applying binary subtraction, equivalent to `add(num1, neg(num2), width)`"""
+    return add(resize(num1, width=width), neg(resize(num2, width=width)), width=width)
+
 def twos_comp(num: np.ndarray) -> np.ndarray:
     return add(inv(num), dec2bin(1, num.shape[0]), num.shape[0])
 
@@ -174,13 +178,10 @@ def inv(num: np.ndarray) -> np.ndarray:
     return val
 
 def mult(num1: np.ndarray, num2: np.ndarray, width: int) -> np.ndarray:
-    # init
-    a = np.zeros(width, dtype=int) if num1[-1] == 0 else np.ones(width, dtype=int)
-    b = np.zeros(width, dtype=int) if num2[-1] == 0 else np.ones(width, dtype=int)
-    a[:num1.shape[0]] = num1
-    b[:num2.shape[0]] = num2
+    """Multiplication, only support unsigned multiplication."""
+    a = resize(num1, width=width, signed=False)
+    b = resize(num2, width=width, signed=False)
 
-    # mult
     sum = np.zeros(width, dtype=int)
     for i in range(width):
         if b[i] == 1:
@@ -191,13 +192,29 @@ def mult(num1: np.ndarray, num2: np.ndarray, width: int) -> np.ndarray:
     return sum        
 
 def div(num: np.ndarray, den: np.ndarray, width: int) -> tuple[np.ndarray, np.ndarray]:
-    """Division, 
-    
+    """Division, only support unsigned division.
+
     Parameters :
     ---
-    `num` : numerator
+    `num` : Numerator
+    `den` : Denominator
+    `width` : The width of outcomes
     
+    Returns :
+    ---
+    ( quotient`(np.ndarray)`, remainder`(np.ndarray)` )
     """
+    if den.sum() == 0: raise ValueError("The denominator cannot be zero.")
+    n = resize(num, width=width, signed=False)
+    d = resize(den, width=width, signed=False)
+
+    quot = 0
+    while bin2dec(n, fixed_point=0, signed=False) >= bin2dec(d, fixed_point=0, signed=False):
+        n = add(n, neg(d), width=width)
+        quot += 1
+
+    return dec2bin(quot, width=width, fixed_point=0, signed=False), n
+
 
 def cat(arr: list) -> np.ndarray:
     """Bitwise concatenation, the items of the list `arr` must be `np.ndarray` or integer `0`, `1`"""
@@ -252,7 +269,7 @@ def binary_resize(num: binary, width: int) -> binary:
     return binary(tmp, fixed_point=num.fixed_point, signed=num.signed, prefix=num.prefix)
 
 
-def dec2bin(num: float, width: int = 32, fixed_point: int = 0, signed = True) -> np.ndarray:
+def dec2bin(num: float, width: int = 32, fixed_point: int = 0, signed = False) -> np.ndarray:
     if num < 0 and not signed: raise ValueError("num cannot be a negative value")
     val, binary = abs(num), np.zeros(width, dtype=int)
     idx = width - 2 if signed else width - 1
@@ -265,7 +282,7 @@ def dec2bin(num: float, width: int = 32, fixed_point: int = 0, signed = True) ->
     return binary if num > 0 else twos_comp(binary)
 
 
-def bin2dec(num: np.ndarray, fixed_point: int = 0, signed: bool = True) -> float:
+def bin2dec(num: np.ndarray, fixed_point: int = 0, signed: bool = False) -> float:
     width = num.shape[0]
     binary = twos_comp(num) if num[width - 1] == 1 and signed else num
     value = 0
@@ -317,7 +334,7 @@ def hex2bin(hex_str: str, width: int = 32) -> np.ndarray:
     return binary
 
 
-def hex2dec(hex_str: str, width: int = 32, fixed_point: int = 0, signed: bool = True) -> int:
+def hex2dec(hex_str: str, width: int = 32, fixed_point: int = 0, signed: bool = False) -> int:
     return bin2dec(hex2bin(hex_str, width), fixed_point=fixed_point, signed=signed)
 
 

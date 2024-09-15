@@ -8,8 +8,8 @@ if __name__ == "__main__":
     # Settings
     var1 = binary(10, width=5, signed=True, prefix=True)
     var2 = binary(8, width=8, signed=False, prefix=True)
-    print(f"var1 = {var1} (decimal: {var1.dec})")  # var1: 5'b0_1010 (decimal: 10)
-    print(f"var2 = {var2} (decimal: {var2.dec})")  # var2: 8'b0000_1000 (decimal: 8)
+    print(f"var1 = {var1} (decimal: {var1.dec})")  # var1 = 5'b0_1010 (decimal: 10)
+    print(f"var2 = {var2} (decimal: {var2.dec})")  # var2 = 8'b0000_1000 (decimal: 8)
 
     print("==================================================")
 
@@ -22,3 +22,15 @@ if __name__ == "__main__":
     print(f"var2 - var1 = {var2 - var1}")  # 8'b0001_0010
 
     print("==================================================")
+
+    for i in range(1, 11):
+        var2.dec = i
+        print(f">> var2 = {var2.dec}")
+
+        # Multiplication
+        var3 = binary(mult(var1.bin, var2.bin, 7), prefix=True)
+        print(f"var1 * var2 = {var3} (decimal: {var3.dec})")  # 7'b101_0000 (decimal: 80)
+
+        # Division
+        var3 = binary(div(var1.bin, var2.bin, 7)[0], prefix=True)
+        print(f"var1 / var2 = {var3} (decimal: {var3.dec})")  # 7'b000_0001 (decimal: 1)
