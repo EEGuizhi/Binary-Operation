@@ -23,14 +23,10 @@ if __name__ == "__main__":
 
     print("==================================================")
 
-    for i in range(1, 11):
-        var2.dec = i
-        print(f">> var2 = {var2.dec}")
+    # Multiplication
+    var3 = binary(mult(var1.bin, var2.bin, 7), prefix=True)
+    print(f"var1 * var2 = {var3} (decimal: {var3.dec})")  # 7'b101_0000 (decimal: 80)
 
-        # Multiplication
-        var3 = binary(mult(var1.bin, var2.bin, 7), prefix=True)
-        print(f"var1 * var2 = {var3} (decimal: {var3.dec})")  # 7'b101_0000 (decimal: 80)
-
-        # Division
-        var3 = binary(div(var1.bin, var2.bin, 7)[0], prefix=True)
-        print(f"var1 / var2 = {var3} (decimal: {var3.dec})")  # 7'b000_0001 (decimal: 1)
+    # Division
+    var3 = binary(div(var1.bin, var2.bin, 7)[0], prefix=True)
+    print(f"var1 / var2 = {var3} (decimal: {var3.dec})")  # 7'b000_0001 (decimal: 1)
