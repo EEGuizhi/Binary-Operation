@@ -46,6 +46,7 @@ class binary:
 
     @property
     def dec(self) -> float:
+        self.__dec = bin2dec(self.__bin, fixed_point=self.__fixed_point, signed=self.__signed)
         return self.__dec
 
     @property
@@ -272,7 +273,7 @@ def binary_resize(num: binary, width: int) -> binary:
 def dec2bin(num: float, width: int = 32, fixed_point: int = 0, signed = False) -> np.ndarray:
     if num < 0 and not signed: raise ValueError("num cannot be a negative value")
     val, binary = abs(num), np.zeros(width, dtype=int)
-    idx = width - 2 if signed else width - 1
+    idx = width - 1
     while idx >= 0:
         power = idx - fixed_point
         if val >= 2**power:
@@ -361,7 +362,7 @@ def bin2hex(num: np.ndarray, prefix = False) -> str:
 
 
 def dec2hex(num: float, width: int, fixed_point: int):
-    """"""
+    """ ( Not completed ) """
 
 
 
